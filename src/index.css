@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  /* AlignUI-style semantic color tokens (approximated locally; a real
+     project would get these from `npx alignui-cli init`) */
+  --color-weak-50: #f2f2f0;
+  --color-white-0: #ffffff;
+
+  --color-strong-950: #0e0e0d;
+  --color-sub-600: #57574f;
+  --color-soft-400: #a3a39a;
+  --color-disabled-300: #d1d1c7;
+
+  --color-soft-200: #e5e5e3;
+  --color-sub-300: #d6d6d1;
+
+  --color-warning-lighter: #fdf1d6;
+  --color-warning-light: #f8dd9e;
+  --color-warning-base: #f59e0b;
+  --color-warning-dark: #92620a;
+
+  --color-error-lighter: #fbe3e1;
+  --color-error-light: #f4b3ac;
+  --color-error-base: #e0483e;
+  --color-error-dark: #932014;
+
+  /* Cool light grey for the stepper track */
+  --color-neutral-100: #f7f7f9;
+
+  /* Center amount: 26px */
+  --text-amount: 1.625rem;
+  --text-amount--line-height: 2rem;
+
+  /* Tiny tag text: 10px */
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 0.875rem;
+
+  /* Shadows */
+  --shadow-regular-xs: 0 1px 2px rgba(14, 14, 13, 0.06);
+  --shadow-regular-sm: 0 2px 6px rgba(14, 14, 13, 0.07);
+  --shadow-regular-md: 0 14px 40px rgba(14, 14, 13, 0.10);
+
+  /* Radii */
+  --radius-10: 0.625rem;
+  --radius-20: 1.25rem;
+
+  /* Typography */
+  --text-title-h4: 2rem;
+  --text-title-h4--line-height: 2.5rem;
+  --text-title-h4--letter-spacing: -0.005em;
+
+  --text-title-h5: 1.5rem;
+  --text-title-h5--line-height: 2rem;
+  --text-title-h5--letter-spacing: 0em;
+
+  --text-label-lg: 1.125rem;
+  --text-label-lg--line-height: 1.5rem;
+
+  --text-label-md: 1rem;
+  --text-label-md--line-height: 1.5rem;
+
+  --text-label-sm: 0.875rem;
+  --text-label-sm--line-height: 1.25rem;
+
+  --text-paragraph-md: 1rem;
+  --text-paragraph-md--line-height: 1.5rem;
+
+  --text-paragraph-sm: 0.875rem;
+  --text-paragraph-sm--line-height: 1.25rem;
+
+  --text-paragraph-xs: 0.75rem;
+  --text-paragraph-xs--line-height: 1rem;
+
+  --text-subheading-xs: 0.75rem;
+  --text-subheading-xs--letter-spacing: 0.04em;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Fire band that sweeps across the CTA on hover */
+@keyframes fire-sweep {
+  from {
+    transform: translateX(-130%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(330%) skewX(-12deg);
+  }
+}
+
+.cta-fire {
+  opacity: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    var(--color-warning-lighter) 35%,
+    var(--color-warning-light) 60%,
+    var(--color-error-lighter) 80%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  transition: opacity 0.25s ease;
+}
+
+.group:hover .cta-fire {
+  opacity: 0.7;
+  animation: fire-sweep 1s linear infinite;
+}
+
+/* At full balance the sweep runs through exactly twice, then stops */
+.cta-fire-active .cta-fire {
+  opacity: 0.7;
+  animation: fire-sweep 1s linear 2;
+}
+
+/* Blinking text caret hinting that the center amount is typeable */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret-blink {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Fades the amount wheel at its top and bottom edges, like the
+   rows scrolling off an iOS picker */
+.wheel-mask {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 30%,
+    black 70%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .cta-fire,
+  .cta-fire-active .cta-fire {
+    animation: none;
+    opacity: 0.5;
+  }
+}
