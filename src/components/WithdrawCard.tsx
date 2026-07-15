@@ -370,7 +370,7 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
         {/* Stepper track: grey container, white pill buttons, amount in the middle */}
         <div
           className={cn(
-            "relative mb-2 flex items-center rounded-full border bg-neutral-100 p-0.5 transition-colors duration-150",
+            "relative mb-4 flex items-center rounded-full border bg-neutral-100 p-0.5 transition-colors duration-150",
             inputFlash ? "border-error-base" : "border-transparent",
           )}
         >
@@ -445,7 +445,7 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
         </div>
 
         {/* Over-limit error, fixed height so the layout stays stable */}
-        <div className="mb-2 h-4 text-center" aria-live="polite">
+        <div className="mb-4 h-4 text-center" aria-live="polite">
           {overLimit && (
             <span className="text-paragraph-xs text-error-base">
               Amount is above your remaining balance
