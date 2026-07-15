@@ -370,7 +370,7 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
         {/* Stepper track: grey container, white pill buttons, amount in the middle */}
         <div
           className={cn(
-            "relative mb-4 flex items-center rounded-full border bg-neutral-100 p-0.5 transition-colors duration-150",
+            "relative mb-6 flex items-center rounded-full border bg-neutral-100 p-0.5 transition-colors duration-150",
             inputFlash ? "border-error-base" : "border-transparent",
           )}
         >
@@ -444,13 +444,23 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
           </motion.button>
         </div>
 
-        {/* Over-limit error, fixed height so the layout stays stable */}
-        <div className="mb-4 h-4 text-center" aria-live="polite">
-          {overLimit && (
-            <span className="text-paragraph-xs text-error-base">
-              Amount is above your remaining balance
-            </span>
-          )}
+        {/* Over-limit error — collapses away when absent */}
+        <div aria-live="polite">
+          <AnimatePresence initial={false}>
+            {overLimit && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="overflow-hidden text-center"
+              >
+                <p className="pb-4 text-paragraph-xs text-error-base">
+                  Amount is above your remaining balance
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Helper text — one line; only "Withdraw now" is active */}
