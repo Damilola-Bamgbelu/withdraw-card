@@ -225,13 +225,13 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMax, balance, reduceMotion]);
 
-  // Fire sweep runs through the CTA twice when the full balance is reached.
+  // Fire sweep runs through the CTA once when the full balance is reached.
   const prevAtMaxRef = useRef(false);
   useEffect(() => {
     if (isAtMax && !prevAtMaxRef.current) {
       setFireRun(true);
       if (fireTimeoutRef.current) clearTimeout(fireTimeoutRef.current);
-      fireTimeoutRef.current = setTimeout(() => setFireRun(false), 2000);
+      fireTimeoutRef.current = setTimeout(() => setFireRun(false), 1000);
     }
     prevAtMaxRef.current = isAtMax;
   }, [isAtMax]);
