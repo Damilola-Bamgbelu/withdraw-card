@@ -128,6 +128,9 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
 
   const [amount, setAmount] = useState(0);
   const [editing, setEditing] = useState(false);
+  // Raw text while editing — keeps an over-limit entry (e.g. 900)
+  // visible alongside the error instead of snapping to the clamp.
+  const [draft, setDraft] = useState("");
   const [inputFlash, setInputFlash] = useState(false);
   const [overLimit, setOverLimit] = useState(false);
   const [fireRun, setFireRun] = useState(false);
@@ -287,6 +290,7 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value.replace(/[^0-9]/g, "");
+      setDraft(raw);
       const parsed = raw === "" ? 0 : parseInt(raw, 10);
       directionRef.current = parsed >= amountRef.current ? 1 : -1;
       if (parsed > balance) {
@@ -407,7 +411,7 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
               type="text"
               inputMode="numeric"
               aria-label="Withdrawal amount"
-              value={amount === 0 ? "" : String(amount)}
+              value={draft}
               onChange={handleInputChange}
               onBlur={() => setEditing(false)}
               onKeyDown={(e) => {
@@ -419,7 +423,10 @@ export default function WithdrawCard({ balance = 500 }: WithdrawCardProps) {
             <button
               type="button"
               aria-label="Edit amount"
-              onClick={() => setEditing(true)}
+              onClick={() => {
+                setDraft(amount === 0 ? "" : String(amount));
+                setEditing(true);
+              }}
               className="z-10 h-12 w-24 shrink-0 cursor-text"
             />
           )}
